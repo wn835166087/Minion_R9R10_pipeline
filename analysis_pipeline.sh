@@ -32,15 +32,9 @@ export PYTHONPATH=/programs/nanoplot-1.38.1/lib64/python3.6/site-packages:/progr
 export PATH=/programs/nanoplot-1.38.1/bin:$PATH
 for i in *_q7_len200.fastq.gz; do echo NanoPlot -t 8 --fastq $i --plots dot --legacy hex -p ${i%_*}; done
 
-
-
-# Assemble the samples by lake - only R10.4.1 - not necessary
-# export PATH=/programs/Flye-2.9.2/bin:$PATH
-# flye --meta --nano-hq Li_barcode01_q10_len200.fastq.gz --out-dir /home/nw323/NanoporeFromBRC/paper3/flye_Li_barcode01 --threads 16
-# flye --meta --nano-hq Li_barcode02_q10_len200.fastq.gz Li_barcode03_q10_len200.fastq.gz --out-dir /home/nw323/NanoporeFromBRC/paper3/flye_Li_barcode0203 --threads 16
-
+# Assemble the sequences
 cd /home/nw323/NanoporeFromBRC/paper3/
-# Assemble the samples by lake - R9.4.1 + R.10.4.1
+## Assemble the samples by lake - CN - R9.4.1 + R.10.4.1
 export PATH=/programs/Flye-2.9.2/bin:$PATH
 # use CN assembly to test if there's improvement when co-assemble with R10.4.1
 flye --meta --nano-hq ./Li_sequencing_sup/Li_barcode02_q10_len200.fastq.gz ./Li_sequencing_sup/Li_barcode03_q10_len200.fastq.gz \
@@ -50,16 +44,3 @@ flye --meta --nano-hq ./Li_sequencing_sup/Li_barcode02_q10_len200.fastq.gz ./Li_
 perl /programs/MaxBin-2.2.7/run_MaxBin.pl -contig flye_LiBRC_CN/assembly.fasta \
  -abund flye_LiBRC_CN/assembly_info.txt \
   -thread 16 -out MaxBin2_flye_LiBRC_CN #out is output file head. 
-
-
-flye --meta --nano-hq ./Li_sequencing_sup/Li_barcode01_q10_len200.fastq.gz ./BRC_sequencing_sup/BRC_barcode02_q7_len200.fastq.gz \
-./BRC_sequencing_sup/BRC_barcode03_q7_len200.fastq.gz ./BRC_sequencing_sup/BRC_barcode04_q7_len200.fastq.gz \
-./BRC_sequencing_sup/BRC_barcode07_q7_len200.fastq.gz ./BRC_sequencing_sup/BRC_barcode08_q7_len200.fastq.gz \
---out-dir /home/nw323/NanoporeFromBRC/paper3/flye_LiBRC_CY --threads 16
-
-
-
-
-
-# use two rounds of racoon for polishing
-export PATH=/programs/racon-1.5.0/bin:$PATH
