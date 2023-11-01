@@ -35,12 +35,12 @@ for i in *_q7_len200.fastq.gz; do echo NanoPlot -t 8 --fastq $i --plots dot --le
 # Assemble the sequences
 cd /home/nw323/NanoporeFromBRC/paper3/
 ## Assemble the samples by lake - CN - R9.4.1 + R.10.4.1
+### use CN assembly to test if there's improvement when co-assemble with R10.4.1
 export PATH=/programs/Flye-2.9.2/bin:$PATH
-# use CN assembly to test if there's improvement when co-assemble with R10.4.1
 flye --meta --nano-hq ./Li_sequencing_sup/Li_barcode02_q10_len200.fastq.gz ./Li_sequencing_sup/Li_barcode03_q10_len200.fastq.gz \
 ./BRC_sequencing_sup/BRC_barcode05_q7_len200.fastq.gz ./BRC_sequencing_sup/BRC_barcode09_q7_len200.fastq.gz \
 --out-dir /home/nw323/NanoporeFromBRC/paper3/flye_LiBRC_CN --threads 16 
-# draft bin it, check bin quality and compare with previous assembly
+## draft bin it, check bin quality and compare with previous assembly
 perl /programs/MaxBin-2.2.7/run_MaxBin.pl -contig flye_LiBRC_CN/assembly.fasta \
  -abund flye_LiBRC_CN/assembly_info.txt \
   -thread 16 -out MaxBin2_flye_LiBRC_CN #out is output file head. 
