@@ -55,16 +55,60 @@ mv *BRC_barcode0507 R9_CN_coassemble
 mkdir R10_CN_coassemble
 mv *Li_barcode0203 R10_CN_coassemble
 
-# use two rounds of racoon for polishing
-## first use minimap to generate the alignment for the reads and the assemblies
+# use three rounds of racoon for polishing - Racon needs to be run on gen2
+## round1
+### first use minimap to generate the alignment for the reads and the assemblies
 export PATH=/programs/minimap2-2.26:$PATH
 cat ./BRC_sequencing_sup/BRC_barcode05_q7_len200.fastq.gz ./BRC_sequencing_sup/BRC_barcode09_q7_len200.fastq.gz \
 > R9_CN_AllReads.fastq.gz
 minimap2 -ax map-ont R9_CN_coassemble/flye_BRC_barcode0507/assembly.fasta R9_CN_AllReads.fastq.gz > R9_CN_aln.sam
+### the use racon
+export PATH=/programs/racon-1.5.0/bin:$PATH
+racon -t 42 R9_CN_AllReads.fastq.gz R9_CN_aln.sam R9_CN_coassemble/flye_BRC_barcode0507/assembly.fasta > racon1_R9_CN.fasta
+
+export PATH=/programs/minimap2-2.26:$PATH
+cat ./Li_sequencing_sup/Li_barcode02_q10_len200.fastq.gz ./Li_sequencing_sup/Li_barcode03_q10_len200.fastq.gz \
+> R10_CN_AllReads.fastq.gz
+minimap2 -ax map-ont R10_CN_coassemble/flye_Li_barcode0203/assembly.fasta R10_CN_AllReads.fastq.gz > R10_CN_aln.sam
 ## the use racon
 export PATH=/programs/racon-1.5.0/bin:$PATH
-racon R9_CN_AllReads.fastq.gz R9_CN_aln.sam R9_CN_coassemble/flye_BRC_barcode0507/assembly.fasta
+racon -t 42 R10_CN_AllReads.fastq.gz R10_CN_aln.sam R10_CN_coassemble/flye_Li_barcode0203/assembly.fasta >  racon1_R10_CN.fasta
 
+## round 2
+### first use minimap to generate the alignment for the reads and the assemblies
+export PATH=/programs/minimap2-2.26:$PATH
+minimap2 -ax map-ont racon1_R9_CN.fasta R9_CN_AllReads.fastq.gz > R9_CN_aln_racon1.sam
+### the use racon
+export PATH=/programs/racon-1.5.0/bin:$PATH
+racon -t 42 R9_CN_AllReads.fastq.gz R9_CN_aln_racon1.sam racon1_R9_CN.fasta > racon2_R9_CN.fasta
+
+export PATH=/programs/minimap2-2.26:$PATH
+minimap2 -ax map-ont racon1_R10_CN.fasta R10_CN_AllReads.fastq.gz > R10_CN_aln_racon1.sam
+## the use racon
+export PATH=/programs/racon-1.5.0/bin:$PATH
+racon -t 42 R10_CN_AllReads.fastq.gz R10_CN_aln_racon1.sam racon1_R10_CN.fasta >  racon2_R10_CN.fasta
+
+## round 3
+### first use minimap to generate the alignment for the reads and the assemblies
+export PATH=/programs/minimap2-2.26:$PATH
+minimap2 -ax map-ont racon2_R9_CN.fasta R9_CN_AllReads.fastq.gz > R9_CN_aln_racon2.sam
+### the use racon
+export PATH=/programs/racon-1.5.0/bin:$PATH
+racon -t 42 R9_CN_AllReads.fastq.gz R9_CN_aln_racon2.sam racon2_R9_CN.fasta > racon3_R9_CN.fasta
+
+export PATH=/programs/minimap2-2.26:$PATH
+minimap2 -ax map-ont racon2_R10_CN.fasta R10_CN_AllReads.fastq.gz > R10_CN_aln_racon2.sam
+## the use racon
+export PATH=/programs/racon-1.5.0/bin:$PATH
+racon -t 42 R10_CN_AllReads.fastq.gz R10_CN_aln_racon2.sam racon2_R10_CN.fasta >  racon3_R10_CN.fasta
+
+# use two rounds of medaka - need to use the GPU server
+##### for Guppy sup R9, the proper model is r941_min_sup_g507
+##### for Guppy sup R10, the proper model is r1041_e82_400bps_sup_v4.2.0
+mkdir /workdir/$USER/
+mkdir /workdir/$USER/mydata
+cp R9_CN_AllReads.fastq.gz /workdir/$USER/mydata/
+cp racon3_R9_CN.fasta /workdir/$USER/mydata/
 
 
 
