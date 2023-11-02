@@ -49,6 +49,22 @@ perl /programs/MaxBin-2.2.7/run_MaxBin.pl -contig flye_BRC_barcode0507/assembly.
  -abund flye_BRC_barcode0507/assembly_info.txt \
   -thread 16 -out MaxBin2_flye_BRC_barcode0507 #out is output file head. 
 
+mkdir R9_CN_coassemble
+mv *BRC_barcode0507 R9_CN_coassemble
+
+mkdir R10_CN_coassemble
+mv *Li_barcode0203 R10_CN_coassemble
+
+# use two rounds of racoon for polishing
+## first use minimap to generate the alignment for the reads and the assemblies
+export PATH=/programs/minimap2-2.26:$PATH
+cat ./BRC_sequencing_sup/BRC_barcode05_q7_len200.fastq.gz ./BRC_sequencing_sup/BRC_barcode09_q7_len200.fastq.gz \
+> R9_CN_AllReads.fastq.gz
+minimap2 -ax map-ont R9_CN_coassemble/flye_BRC_barcode0507/assembly.fasta R9_CN_AllReads.fastq.gz > R9_CN_aln.sam
+## the use racon
+export PATH=/programs/racon-1.5.0/bin:$PATH
+racon R9_CN_AllReads.fastq.gz R9_CN_aln.sam R9_CN_coassemble/flye_BRC_barcode0507/assembly.fasta
+
 
 
 
