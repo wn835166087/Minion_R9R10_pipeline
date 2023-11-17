@@ -83,13 +83,128 @@ do
     echo "one round done"
 done
 
-# use two rounds of medaka - need to use the GPU server
+# use two rounds of medaka - need to use the GPU server and work in /workdir
 ##### for Guppy sup R9, the proper model is r941_min_sup_g507
 ##### for Guppy sup R10, the proper model is r1041_e82_400bps_sup_v4.2.0
 mkdir /workdir/$USER/
 mkdir /workdir/$USER/mydata
 cp R9_CN_AllReads.fastq.gz /workdir/$USER/mydata/
 cp racon3_R9_CN.fasta /workdir/$USER/mydata/
+cp R10_CN_AllReads.fastq.gz /workdir/$USER/mydata/
+cp racon3_R10_CN.fasta /workdir/$USER/mydata/
+BASECALLS=R10_CN_AllReads.fastq.gz
+DRAFT=racon3_R10_CN.fasta
+OUTDIR=medaka1_R10_CN
+model=r1041_e82_400bps_sup_v4.2.0
+docker1 run -u root --rm -v /workdir/$USER/mydata/:/data -w /data  --gpus all ontresearch/medaka:latest medaka_consensus  -i ${BASECALLS} -d ${DRAFT} -o ${OUTDIR}  -m ${model}
+
+BASECALLS=R10_CN_AllReads.fastq.gz
+DRAFT=medaka1_R10_CN/consensus.fasta
+OUTDIR=medaka2_R10_CN
+model=r1041_e82_400bps_sup_v4.2.0
+docker1 run -u root --rm -v /workdir/$USER/mydata/:/data -w /data  --gpus all ontresearch/medaka:latest medaka_consensus  -i ${BASECALLS} -d ${DRAFT} -o ${OUTDIR}  -m ${model}
+
+# Maxbin2
+READS=R10_CN_AllReads.fastq.gz
+DRAFT=medaka2_R10_CN/consensus.fasta
+PREFIX=maxbin_medaka_R10_CN
+perl /programs/MaxBin-2.2.7/run_MaxBin.pl -contig ${DRAFT} \
+ -reads ${READS} \
+  -thread 16 -out ${PREFIX} #out is output file head. 
+
+READS=R9_CN_AllReads.fastq.gz
+DRAFT=medaka2_R9_CN/consensus.fasta
+PREFIX=maxbin_medaka_R9_CN
+perl /programs/MaxBin-2.2.7/run_MaxBin.pl -contig ${DRAFT} \
+ -reads ${READS} \
+  -thread 32 -out ${PREFIX} #out is output file head. 
+
+# Maxbin2 on R9R10 contigs
+cat S2_2_Medaka/medaka2_R10_CN/consensus.fasta S2_2_Medaka/medaka2_R9_CN/consensus.fasta > R9R10_CN_polished_contigs.fasta
+DRAFT=R9R10_CN_polished_contigs.fasta
+PREFIX=maxbin_medaka_R9R10_CN
+perl /programs/MaxBin-2.2.7/run_MaxBin.pl -contig ${DRAFT} \
+ -reads1 R9_CN_AllReads.fastq.gz -reads2 R10_CN_AllReads.fastq.gz \
+  -thread 32 -out ${PREFIX} #out is output file head. 
+
+----------------------- The files were moved to folders to better management ----------------
+----------------------- Coaasemble output were put into S1_Flye, similar for Polish and Bin ----------------
+
+# prepare the sorted bam file for 
+READS=R9_CN_AllReads.fastq.gz
+DRAFT=S2_2_Medaka/medaka2_R9_CN/consensus.fasta
+bwa index ${DRAFT}
+bwa mem -x ont2d -t 32 -M ${DRAFT} ${READS} > ${READS: 0 :5}_bwa.sam
+samtools view -@ 32 -bS ${READS: 0 :5}_bwa.sam > ${READS: 0 :5}_bwa.bam
+samtools sort -@ 32 ${READS: 0 :5}_bwa.bam > ${READS: 0 :5}_bwa.sort.bam
+singularity run --bind $PWD --pwd $PWD /programs/metabat-2.16/metabat.sif runMetaBat.sh -s 500000 ${DRAFT} ${READS: 0 :5}_bwa.sort.bam 
+mv consensus.fasta.depth.txt ${READS: 0 :5}_consensus.fasta.depth.txt
+mv consensus.fasta.metabat-* ${READS: 0 :5}_metabat
+
+READS=R10_CN_AllReads.fastq.gz
+DRAFT=S2_2_Medaka/medaka2_R10_CN/consensus.fasta
+bwa index ${DRAFT}
+bwa mem -x ont2d -t 32 -M ${DRAFT} ${READS} > ${READS: 0 :6}_bwa.sam
+samtools view -@ 32 -bS ${READS: 0 :6}_bwa.sam > ${READS: 0 :6}_bwa.bam
+samtools sort -@ 32 ${READS: 0 :6}_bwa.bam > ${READS: 0 :6}_bwa.sort.bam
+singularity run --bind $PWD --pwd $PWD /programs/metabat-2.16/metabat.sif runMetaBat.sh -s 500000 ${DRAFT} ${READS: 0 :6}_bwa.sort.bam
+mv consensus.fasta.depth.txt ${READS: 0 :6}_consensus.fasta.depth.txt
+mv consensus.fasta.metabat-* ${READS: 0 :6}_metabat
+
+# # run vamb on R9R10 reads (it doesn't work for DAS)
+# export PYTHONPATH=/programs/vamb-4.1.3/lib/python3.9/site-packages:/programs/vamb-4.1.3/lib64/python3.9/site-packages:/programs/vamb-4.1.3
+# export PATH=/programs/vamb-4.1.3/bin:$PATH
+# cp S2_2_Medaka/medaka2_R10_CN/consensus.fasta ./R10_CN_consensus.fasta
+# cp S2_2_Medaka/medaka2_R9_CN/consensus.fasta ./R9_CN_consensus.fasta
+# python concatenate.py R9R10_CN_polished_contigs_vamb.fasta R10_CN_consensus.fasta R9_CN_consensus.fasta --nozip
+# cat R10_CN_AllReads.fastq.gz R9_CN_AllReads.fastq.gz > R9R10_CN_AllReads.fastq.gz
+# DRAFT=R9R10_CN_polished_contigs_vamb.fasta
+# bwa index ${DRAFT}
+# bwa mem -x ont2d -t 32 -M ${DRAFT} R9R10_CN_AllReads.fastq.gz > ${DRAFT: 0 :8}_bwa.sam
+# samtools view -@ 32 -bS ${DRAFT: 0 :8}_bwa.sam > ${DRAFT: 0 :8}_bwa.bam
+# samtools sort -@ 32 ${DRAFT: 0 :8}_bwa.bam > ${DRAFT: 0 :8}_bwa.sort.bam
+
+# CONTIG=R9R10_CN_polished_contigs_vamb.fasta
+# BAMFILE=R9R10_CN_bwa.sort.bam  
+# OUTPUT=R9R10_CN_Vamb
+# vamb -o C --minfasta 500000 --outdir ${OUTPUT} --fasta ${CONTIG} --bamfiles ${BAMFILE}
+
+# run vamb on R10 reads (R9 doesn't work because of small amount of contigs) 
+CONTIG=R10_CN_consensus.fasta
+BAMFILE=R10_CN_bwa.sort.bam  
+OUTPUT=R10_CN_vamb
+vamb --minfasta 500000 --outdir ${OUTPUT} --fasta ${CONTIG} --bamfiles ${BAMFILE}
+
+# copy the files to the /workdir for DAStool
+cd /home/nw323/NanoporeFromBRC/paper3/S3_1_Maxbin/maxbin_R9_CN
+/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fasta > maxbin_R9_CN_contigs2bin.tsv
+sleep 1
+cd /home/nw323/NanoporeFromBRC/paper3/S3_1_Maxbin/maxbin_R10_CN
+/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fasta > maxbin_R10_CN_contigs2bin.tsv
+sleep 1
+cd /home/nw323/NanoporeFromBRC/paper3/S3_2_metabat/R9_CN_metabat
+/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fa > metabat_R9_CN_contigs2bin.tsv
+sleep 1
+cd /home/nw323/NanoporeFromBRC/paper3/S3_2_metabat/R10_CN_metabat
+/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fa > metabat_R10_CN_contigs2bin.tsv
+sleep 1
+cd /home/nw323/NanoporeFromBRC/paper3/S3_3_Vamb/R10_CN_vamb/bins
+/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fna > vamb_R10_CN_contigs2bin.tsv
+sleep 1
+
+cd /workdir/nw323
+singularity run -B /workdir/$USER --pwd /workdir/$USER /programs/DAS_Tool-1.1.6/das_tools.sif DAS_Tool \
+-i metabat_R9_CN_contigs2bin.tsv,maxbin_R9_CN_contigs2bin.tsv \
+-l metabat,maxbin \
+-c R9_CN_consensus.fasta \
+-o R9_CN_DAStool
+
+singularity run -B /workdir/$USER --pwd /workdir/$USER /programs/DAS_Tool-1.1.6/das_tools.sif DAS_Tool \
+-i metabat_R10_CN_contigs2bin.tsv,maxbin_R10_CN_contigs2bin.tsv,vamb_R10_CN_contigs2bin.tsv  \
+-l metabat,maxbin,vamb \
+-c R10_CN_consensus.fasta \
+-o R10_CN_DAStool
+
 
 
 
