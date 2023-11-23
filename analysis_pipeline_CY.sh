@@ -83,88 +83,35 @@ docker1 run -u root --rm -v /workdir/$USER/mydata/:/data -w /data  --gpus all on
 ---------------------- The files were moved to folders to better management ----------------
 ----------------------- Coaasemble output were put into S1_Flye, similar for Polish and Bin ----------------
 
-# Maxbin2
-READS=R10_CY_AllReads.fastq.gz
-DRAFT=S2_2_Medaka/medaka2_R10_CY/consensus.fasta
-PREFIX=maxbin_medaka_R10_CY
-perl /programs/MaxBin-2.2.7/run_MaxBin.pl -contig ${DRAFT} \
- -reads ${READS} \
-  -thread 32 -out ${PREFIX} #out is output file head. 
-
-READS=R9_CY_AllReads.fastq.gz
-DRAFT=S2_2_Medaka/medaka2_R9_CY/consensus.fasta
-PREFIX=maxbin_medaka_R9_CY
-perl /programs/MaxBin-2.2.7/run_MaxBin.pl -contig ${DRAFT} \
- -reads ${READS} \
-  -thread 32 -out ${PREFIX} #out is output file head. 
-
-# Metabat
-# prepare the sorted bam file for 
-READS=R9_CY_AllReads.fastq.gz
-DRAFT=S2_2_Medaka/medaka2_R9_CY/consensus.fasta
-bwa index ${DRAFT}
-bwa mem -x ont2d -t 32 -M ${DRAFT} ${READS} > ${READS: 0 :5}_bwa.sam
-samtools view -@ 32 -bS ${READS: 0 :5}_bwa.sam > ${READS: 0 :5}_bwa.bam
-samtools sort -@ 32 ${READS: 0 :5}_bwa.bam > ${READS: 0 :5}_bwa.sort.bam
-singularity run --bind $PWD --pwd $PWD /programs/metabat-2.16/metabat.sif runMetaBat.sh -s 500000 ${DRAFT} ${READS: 0 :5}_bwa.sort.bam 
-mv consensus.fasta.depth.txt ${READS: 0 :5}_consensus.fasta.depth.txt
-mv consensus.fasta.metabat-* ${READS: 0 :5}_metabat
-
-READS=R10_CY_AllReads.fastq.gz
-DRAFT=S2_2_Medaka/medaka2_R10_CY/consensus.fasta
-bwa index ${DRAFT}
-bwa mem -x ont2d -t 32 -M ${DRAFT} ${READS} > ${READS: 0 :6}_bwa.sam
-samtools view -@ 32 -bS ${READS: 0 :6}_bwa.sam > ${READS: 0 :6}_bwa.bam
-samtools sort -@ 32 ${READS: 0 :6}_bwa.bam > ${READS: 0 :6}_bwa.sort.bam
-singularity run --bind $PWD --pwd $PWD /programs/metabat-2.16/metabat.sif runMetaBat.sh -s 500000 ${DRAFT} ${READS: 0 :6}_bwa.sort.bam
-mv consensus.fasta.depth.txt ${READS: 0 :6}_consensus.fasta.depth.txt
-mv consensus.fasta.metabat-* ${READS: 0 :6}_metabat
-
-# Vamb
 export PYTHONPATH=/programs/vamb-4.1.3/lib/python3.9/site-packages:/programs/vamb-4.1.3/lib64/python3.9/site-packages:/programs/vamb-4.1.3
 export PATH=/programs/vamb-4.1.3/bin:$PATH
-# R9 reads
-CONTIG=R9_CY_consensus.fasta
-BAMFILE=R9_CY_bwa.sort.bam  
-OUTPUT=R9_CY_vamb
-vamb --minfasta 500000 --outdir ${OUTPUT} --fasta ${CONTIG} --bamfiles ${BAMFILE}
+python concatenate.py R9R10_CN_polished_contigs.fasta S2_2_Medaka/medaka2_R9_CY/consensus.fasta S2_2_Medaka/medaka2_R10_CY/consensus.fasta --nozip
 
-# R10 reads
-CONTIG=R10_CY_consensus.fasta
-BAMFILE=R10_CY_bwa.sort.bam  
-OUTPUT=R10_CY_vamb
-vamb --minfasta 500000 --outdir ${OUTPUT} --fasta ${CONTIG} --bamfiles ${BAMFILE}
+# maxbin
+READS_ls=CY_reads_list_4maxbin.txt
+DRAFT=R9R10_CN_polished_contigs.fasta
+PREFIX=maxbin_CY
+perl /programs/MaxBin-2.2.7/run_MaxBin.pl -contig ${DRAFT} \
+-reads_list ${READS_ls} \
+-thread 32 -out ${PREFIX} #out is output file head.
 
-#
-cd /home/nw323/NanoporeFromBRC/paper3/S3_1_Maxbin/maxbin_R9_CY
-/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fasta > maxbin_R9_CY_contigs2bin.tsv
-sleep 1
-cd /home/nw323/NanoporeFromBRC/paper3/S3_1_Maxbin/maxbin_R10_CY
-/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fasta > maxbin_R10_CY_contigs2bin.tsv
-sleep 1
-cd /home/nw323/NanoporeFromBRC/paper3/S3_2_metabat/R9_CY_metabat
-/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fa > metabat_R9_CY_contigs2bin.tsv
-sleep 1
-cd /home/nw323/NanoporeFromBRC/paper3/S3_2_metabat/R10_CY_metabat
-/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fa > metabat_R10_CY_contigs2bin.tsv
-sleep 1
-cd /home/nw323/NanoporeFromBRC/paper3/S3_3_Vamb/R10_CY_vamb/bins
-/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fna > vamb_R10_CY_contigs2bin.tsv
-sleep 1
-cd /home/nw323/NanoporeFromBRC/paper3/S3_3_Vamb/R9_CY_vamb/bins
-/home/nw323/NanoporeFromBRC/paper3/Fasta_to_Contig2Bin.sh -e fna > vamb_R9_CY_contigs2bin.tsv
-sleep 1
+# prepare bam files for metabat and vamb
+DRAFT=R9R10_CN_polished_contigs.fasta
+bwa index ${DRAFT}
+for fq_file in BRC_sequencing_sup/*_q7_len200.fastq.gz
+do
+    file_name=${fq_file#*/}
+    bwa mem -x ont2d -t 32 -M ${DRAFT} ${fq_file} > ${file_name%_q*}_bwa.sam
+    samtools view -@ 32 -bS ${file_name%_q*}_bwa.sam > ${file_name%_q*}_bwa.bam
+    samtools sort -@ 32 ${file_name%_q*}_bwa.bam > ${file_name%_q*}_bwa.sort.bam
+done
 
-cd /workdir/nw323
-singularity run -B /workdir/$USER --pwd /workdir/$USER /programs/DAS_Tool-1.1.6/das_tools.sif DAS_Tool \
--i metabat_R9_CY_contigs2bin.tsv,maxbin_R9_CY_contigs2bin.tsv \
--l metabat,maxbin \
--c R9_CY_consensus.fasta \
--o R9_CY_DAStool
+DRAFT=R9R10_CN_polished_contigs.fasta
+for fq_file in Li_sequencing_sup/*_q10_len200.fastq.gz
+do
+    file_name=${fq_file#*/}
+    bwa mem -x ont2d -t 32 -M ${DRAFT} ${fq_file} > ${file_name%_q*}_bwa.sam
+    samtools view -@ 32 -bS ${file_name%_q*}_bwa.sam > ${file_name%_q*}_bwa.bam
+    samtools sort -@ 32 ${file_name%_q*}_bwa.bam > ${file_name%_q*}_bwa.sort.bam
 
-singularity run -B /workdir/$USER --pwd /workdir/$USER /programs/DAS_Tool-1.1.6/das_tools.sif DAS_Tool \
--i metabat_R10_CY_contigs2bin.tsv,maxbin_R10_CY_contigs2bin.tsv,vamb_R10_CY_contigs2bin.tsv  \
--l metabat,maxbin,vamb \
--c R10_CY_consensus.fasta \
--o R10_CY_DAStool
-
+done
