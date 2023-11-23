@@ -113,5 +113,11 @@ do
     bwa mem -x ont2d -t 32 -M ${DRAFT} ${fq_file} > ${file_name%_q*}_bwa.sam
     samtools view -@ 32 -bS ${file_name%_q*}_bwa.sam > ${file_name%_q*}_bwa.bam
     samtools sort -@ 32 ${file_name%_q*}_bwa.bam > ${file_name%_q*}_bwa.sort.bam
-
 done
+
+
+
+-------------
+# post das_tool, use the in-house script: dastool_getbinfasta.py to get the bin fastas
+python dastool_getbinfasta.py ${PWD}/
+
