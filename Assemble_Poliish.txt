@@ -1,0 +1,65 @@
+# the QCed R10 flow cell reads were stored in NanoporeFromBRC/paper3/Li_sequencing_sup/*_q10_len200.fastq.gz
+# the QCed R9.4.1 flow cell reads were stored in NanoporeFromBRC/paper3/BRC_sequencing_sup/*_q7_len200.fastq.gz
+
+# use server: medium gen1: 24 cores, 128GB RAM.
+# Assemble the sequences
+cd /home/nw323/NanoporeFromBRC/paper3/
+## Assemble the samples by lake - assemble R10.4.1 and R9.4.1 separatedly
+export PATH=/programs/Flye-2.9.2/bin:$PATH
+### assemble with flye
+flye --meta --nano-hq ./Li_sequencing_sup/Li_barcode02_q10_len200.fastq.gz ./Li_sequencing_sup/Li_barcode03_q10_len200.fastq.gz \
+ --out-dir /home/nw323/NanoporeFromBRC/paper3/flye_R10_CN --threads 16
+flye --meta --nano-hq ./BRC_sequencing_sup/BRC_barcode05_q7_len200.fastq.gz ./BRC_sequencing_sup/BRC_barcode09_q7_len200.fastq.gz \
+--out-dir /home/nw323/NanoporeFromBRC/paper3/flye_R9_CN --threads 16 
+
+mkdir S1_flye
+mv flye* S1_flye
+
+# use three rounds of racoon for polishing - Racon needs to be run on gen2 server!
+## use for loop to do racoon for each assembly
+export PATH=/programs/minimap2-2.26:$PATH
+export PATH=/programs/racon-1.5.0/bin:$PATH
+allreads=R9_CN_AllReads.fastq.gz
+assembly_file=S1_flye/flye_R9_CN/assembly.fasta
+cat ./BRC_sequencing_sup/BRC_barcode05_q7_len200.fastq.gz ./BRC_sequencing_sup/BRC_barcode09_q7_len200.fastq.gz \
+> ${allreads}
+for i in 1 2 3
+do
+    minimap2 -ax map-ont ${assembly_file} ${allreads} > ${allreads%_*}_aln_racon$[$i-1].sam
+    racon -t 42 ${allreads} ${allreads%_*}_aln_racon$[$i-1].sam ${assembly_file} > racon${i}_${allreads%_*}.fasta
+    assembly_file=racon${i}_${allreads%_*}.fasta
+    echo "one round done"
+done
+
+allreads=R10_CN_AllReads.fastq.gz
+assembly_file=S1_flye/flye_R10_CN/assembly.fasta
+cat ./Li_sequencing_sup/Li_barcode02_q10_len200.fastq.gz ./Li_sequencing_sup/Li_barcode03_q10_len200.fastq.gz \
+> ${allreads}
+for i in 1 2 3
+do
+    minimap2 -ax map-ont ${assembly_file} ${allreads} > ${allreads%_*}_aln_racon$[$i-1].sam
+    racon -t 42 ${allreads} ${allreads%_*}_aln_racon$[$i-1].sam ${assembly_file} > racon${i}_${allreads%_*}.fasta
+    assembly_file=racon${i}_${allreads%_*}.fasta
+    echo "one round done"
+done
+
+# use two rounds of medaka - need to use the GPU server and work in /workdir
+##### for Guppy sup R9, the proper model is r941_min_sup_g507
+##### for Guppy sup R10, the proper model is r1041_e82_400bps_sup_v4.2.0
+mkdir /workdir/$USER/
+mkdir /workdir/$USER/mydata
+cp R9_CN_AllReads.fastq.gz /workdir/$USER/mydata/
+cp racon3_R9_CN.fasta /workdir/$USER/mydata/
+cp R10_CN_AllReads.fastq.gz /workdir/$USER/mydata/
+cp racon3_R10_CN.fasta /workdir/$USER/mydata/
+BASECALLS=R10_CN_AllReads.fastq.gz
+DRAFT=racon3_R10_CN.fasta
+OUTDIR=medaka1_R10_CN
+model=r1041_e82_400bps_sup_v4.2.0
+docker1 run -u root --rm -v /workdir/$USER/mydata/:/data -w /data  --gpus all ontresearch/medaka:latest medaka_consensus  -i ${BASECALLS} -d ${DRAFT} -o ${OUTDIR}  -m ${model}
+
+BASECALLS=R10_CN_AllReads.fastq.gz
+DRAFT=medaka1_R10_CN/consensus.fasta
+OUTDIR=medaka2_R10_CN
+model=r1041_e82_400bps_sup_v4.2.0
+docker1 run -u root --rm -v /workdir/$USER/mydata/:/data -w /data  --gpus all ontresearch/medaka:latest medaka_consensus  -i ${BASECALLS} -d ${DRAFT} -o ${OUTDIR}  -m ${model}
