@@ -59,7 +59,25 @@ for i in `ls bin*`; do mv $i metabat_CY_${i%.*}.fasta; done
 cd ..
 
 
--------------
-# post das_tool, use the in-house script: dastool_getbinfasta.py to get the bin fastas
-python dastool_getbinfasta.py ${PWD}/
+# do the rest of the analysis to make sure that using default setting is better than the customs setting for metabat2
+cp S3_1_Maxbin/*_contigs2bin.tsv /workdir/nw323/
+cp S3_2_Metabat_R9R10/*_contigs2bin.tsv /workdir/nw323/
+cp S3_3_Vamb/bins/*_contigs2bin.tsv /workdir/nw323/
+cp R9R10_CY_polished_contigs.fasta /workdir/nw323/
+
+cd /workdir/nw323
+singularity run -B /workdir/$USER --pwd /workdir/$USER /programs/DAS_Tool-1.1.6/das_tools.sif DAS_Tool \
+-i metabat_CY_R9R10_contigs2bin.tsv,maxbin_CY_contigs2bin.tsv,vamb_CY_contigs2bin.tsv \
+--score_threshold=0.1 \
+-l metabat,maxbin,vamb \
+-c R9R10_CY_polished_contigs.fasta \
+-o S4_Dastool_CY
+
+mkdir S4_Dastool_metabat97
+mv S4_Dastool_CY* S4_Dastool_metabat97
+cp -r S4_Dastool_metabat97 ~/NanoporeFromBRC/paper3/CY/
+
+cd ~/NanoporeFromBRC/paper3/CY/
+../../dastool_getbinfasta.py ../R9R10_CY_polished_contigs.fasta S4_Dastool_CY_DASTool_contig2bin.tsv
+
 
