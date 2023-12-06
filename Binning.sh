@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # merge the assembled contigs and rename it so that the later bining process is easier
 export PYTHONPATH=/programs/vamb-4.1.3/lib/python3.9/site-packages:/programs/vamb-4.1.3/lib64/python3.9/site-packages:/programs/vamb-4.1.3
 export PATH=/programs/vamb-4.1.3/bin:$PATH
