@@ -1,0 +1,58 @@
+﻿Bin Name,Marker Lineage,# Genomes,# Markers,# Marker Sets,0,1,2,3,4,5+,Completeness,Contamination,Kindom,Phylum,Class,Order,Family,Genus,Species
+maxbin_CN.001__CN_Dec06,k__Bacteria,5449,103,58,15,52,33,3,0,0,84.59,38.78,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Microcystaceae,g__Microcystis,s__Microcystis sp002282935
+maxbin_CN.003__CN_Dec06,k__Bacteria,433,274,183,4,264,6,0,0,0,98.36,2.73,d__Bacteria,p__Bacteroidota,c__Bacteroidia,o__J057,f__JAJTIE01,g__,s__
+maxbin_CN.005__CN_Dec06,k__Bacteria,433,274,183,37,210,24,3,0,0,81.97,10.95,d__Bacteria,p__Bacteroidota,c__Bacteroidia,o__J057,f__JAJTIE01,g__,s__
+maxbin_CN.006__CN_Dec06,p__Cyanobacteria,89,544,424,218,216,86,21,3,0,58.04,26.81,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Pseudanabaenales,f__Pseudanabaenaceae,g__PCC-7502,s__
+maxbin_CN.008_sub__CN_Dec06,k__Bacteria,5449,104,58,43,38,16,6,1,0,46.43,13.09,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Rhizobiales,f__Beijerinckiaceae,g__JADCCX01,s__JADCCX01 sp020252485
+maxbin_CN.009_sub__CN_Dec06,p__Cyanobacteria,89,544,424,384,132,26,1,1,0,24.13,4.2,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Pseudanabaenales,f__Pseudanabaenaceae,g__,s__
+maxbin_CN.010__CN_Dec06,p__Cyanobacteria,89,544,424,7,525,12,0,0,0,98.9,2.24,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Pseudanabaenales,f__Pseudanabaenaceae,g__Pseudanabaena,s__Pseudanabaena sp020404895
+maxbin_CN.012__CN_Dec06,k__Bacteria,433,274,183,35,199,35,5,0,0,86.51,17.12,d__Bacteria,p__Bacteroidota,c__Bacteroidia,o__J057,f__JAJTIE01,g__,s__
+maxbin_CN.014_sub__CN_Dec06,c__Alphaproteobacteria,564,348,229,215,113,18,2,0,0,34.29,5.71,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Elsterales,f__,g__,s__
+maxbin_CN.015_sub__CN_Dec06,k__Bacteria,901,171,117,89,62,18,2,0,0,53.57,16.06,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__JAJTHO01,f__JAJTHO01,g__,s__
+maxbin_CN.016_sub__CN_Dec06,k__Bacteria,5449,103,57,80,22,1,0,0,0,22.84,1.75,d__Bacteria,p__Planctomycetota,c__Phycisphaerae,o__Phycisphaerales,f__UBA1924,g__JAJTGZ01,s__JAJTGZ01 sp021299385
+maxbin_CN.017__CN_Dec06,c__Alphaproteobacteria,26,529,308,65,442,21,1,0,0,86.94,4.79,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Caulobacterales,f__Caulobacteraceae,g__Phenylobacterium,s__Phenylobacterium sp020402745
+maxbin_CN.019_sub__CN_Dec06,k__Bacteria,5449,104,58,76,23,5,0,0,0,36.84,6.9,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Acetobacterales,f__Acetobacteraceae,g__Roseomonas_B,s__Roseomonas_B sp020249285
+maxbin_CN.020__CN_Dec06,o__Actinomycetales,455,315,190,127,166,22,0,0,0,54.9,8.42,d__Bacteria,p__Actinomycetota,c__Actinomycetia,o__Nanopelagicales,f__Nanopelagicaceae,g__Nanopelagicus,s__
+maxbin_CN.021__CN_Dec06,o__Actinomycetales,488,310,185,91,206,13,0,0,0,66.5,5.77,d__Bacteria,p__Actinomycetota,c__Actinomycetia,o__Nanopelagicales,f__Nanopelagicaceae,g__Nanopelagicus,s__Nanopelagicus abundans
+metabat_CN_bin.12__CN_Dec06,o__Cytophagales,47,454,336,50,384,20,0,0,0,87.67,4.57,d__Bacteria,p__Bacteroidota,c__Bacteroidia,o__Cytophagales,f__Cyclobacteriaceae,g__ELB16-189,s__ELB16-189 sp020402945
+metabat_CN_bin.9__CN_Dec06,k__Bacteria,2921,143,88,24,117,2,0,0,0,77.57,1.7,d__Bacteria,p__Planctomycetota,c__Phycisphaerae,o__Phycisphaerales,f__UBA1924,g__JAJTGZ01,s__JAJTGZ01 sp021299385
+vamb_CN_vae_36__CN_Dec06,o__Rhodospirillales,63,336,201,72,247,16,1,0,0,72.76,4.58,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Acetobacterales,f__Acetobacteraceae,g__Roseomonas_B,s__Roseomonas_B sp020249285
+vamb_CN_vae_3_sub__CN_Dec06,o__Cytophagales,47,454,336,13,436,4,1,0,0,97.16,1.59,d__Bacteria,p__Bacteroidota,c__Bacteroidia,o__Cytophagales,f__Cyclobacteriaceae,g__ELB16-189,s__ELB16-189 sp020402945
+vamb_CN_vae_4__CN_Dec06,c__Betaproteobacteria,223,425,211,62,357,6,0,0,0,83.05,1.37,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Burkholderiales,f__Usitatibacteraceae,g__UKL13-2,s__
+vamb_CN_vae_6__CN_Dec06,o__Rhizobiales,92,481,319,58,420,3,0,0,0,87.72,0.78,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Rhizobiales,f__Beijerinckiaceae,g__JADCCX01,s__JADCCX01 sp020252485
+vamb_CN_vae_8_sub__CN_Dec06,p__Cyanobacteria,79,582,456,114,292,143,24,8,1,80.04,40.13,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Microcystaceae,g__Microcystis,s__Microcystis sp002282935
+vamb_CN_vae_9__CN_Dec06,k__Bacteria,2993,139,83,11,121,7,0,0,0,90.22,6.13,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Pelagibacterales,f__Pelagibacteraceae,g__Fonsibacter,s__Fonsibacter sp000510845
+maxbin_CY.003_sub__CY_Dec06,p__Cyanobacteria,79,582,456,254,217,80,22,6,3,51.83,26.19,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Microcystaceae,g__Microcystis,s__
+maxbin_CY.005_sub__CY_Dec06,k__Bacteria,5449,99,53,66,28,4,1,0,0,35.82,8.81,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Nostocaceae,g__Dolichospermum,s__
+maxbin_CY.006_sub__CY_Dec06,p__Cyanobacteria,79,582,456,348,195,33,6,0,0,41.89,8,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Microcystaceae,g__Microcystis,s__Microcystis sp002282935
+maxbin_CY.007_sub__CY_Dec06,p__Proteobacteria,1487,261,164,140,90,27,4,0,0,49.64,14.33,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Xanthomonadales,f__Xanthomonadaceae,g__Silanimonas,s__
+maxbin_CY.008__CY_Dec06,c__Betaproteobacteria,323,387,234,156,178,50,3,0,0,58.46,16.19,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Burkholderiales,f__Burkholderiaceae,g__UBA4657,s__UBA4657 sp002405475
+maxbin_CY.010_sub__CY_Dec06,k__Bacteria,2993,147,91,66,72,9,0,0,0,53.44,2.65,d__Bacteria,p__Gemmatimonadota,c__Gemmatimonadetes,o__Gemmatimonadales,f__Gemmatimonadaceae,g__Gemmatimonas,s__
+maxbin_CY.012_sub__CY_Dec06,p__Cyanobacteria,79,582,456,481,93,6,2,0,0,13.57,1.6,d__Bacteria,p__Cyanobacteriota,c__,o__,f__,g__,s__
+maxbin_CY.013__CY_Dec06,p__Cyanobacteria,82,579,450,4,566,9,0,0,0,99.22,1.78,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Nostocaceae,g__Dolichospermum,s__Dolichospermum sp000312705
+maxbin_CY.014__CY_Dec06,p__Cyanobacteria,89,544,424,142,380,22,0,0,0,72.11,4.36,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Pseudanabaenales,f__Pseudanabaenaceae,g__Pseudanabaena,s__Pseudanabaena sp020404895
+maxbin_CY.015__CY_Dec06,k__Bacteria,5449,104,58,7,47,30,17,3,0,92.63,68.1,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Rhodobacterales,f__Rhodobacteraceae,g__Rhodobacter_F,s__Rhodobacter_F sp020250175
+maxbin_CY.016_sub__CY_Dec06,k__Bacteria,2993,139,83,103,32,4,0,0,0,28,2.68,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Pelagibacterales,f__Pelagibacteraceae,g__Fonsibacter,s__
+maxbin_CY.017__CY_Dec06,k__Bacteria,5449,104,58,62,30,8,4,0,0,19.59,2.51,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Enterobacterales_A,f__Alteromonadaceae,g__Pararheinheimera,s__
+maxbin_CY.018__CY_Dec06,p__Cyanobacteria,89,544,424,59,466,19,0,0,0,89.11,2.29,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Pseudanabaenales,f__Pseudanabaenaceae,g__Pseudanabaena,s__Pseudanabaena sp020404895
+maxbin_CY.020_sub__CY_Dec06,o__Rhodospirillales,63,336,201,176,155,3,2,0,0,43.35,3.48,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Acetobacterales,f__Acetobacteraceae,g__Roseomonas_B,s__Roseomonas_B sp020249285
+maxbin_CY.022_sub__CY_Dec06,k__Bacteria,5449,104,58,21,48,31,3,1,0,79.08,38.42,d__Bacteria,p__Bacteroidota,c__Bacteroidia,o__Cytophagales,f__Cyclobacteriaceae,g__ELB16-189,s__
+maxbin_CY.026_sub__CY_Dec06,k__Bacteria,5449,104,58,37,43,21,2,1,0,46.63,22.83,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Sphingomonadales,f__Sphingomonadaceae,g__Sphingorhabdus_B,s__
+maxbin_CY.027_sub__CY_Dec06,o__Burkholderiales,193,427,214,325,88,13,0,1,0,13.73,3.04,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Burkholderiales,f__Burkholderiaceae_B,g__Inhella,s__
+maxbin_CY.028__CY_Dec06,o__Burkholderiales,193,426,214,3,420,3,0,0,0,98.91,0.65,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Burkholderiales,f__Burkholderiaceae_B,g__Rubrivivax,s__
+maxbin_CY.029_sub__CY_Dec06,p__Proteobacteria,1487,259,162,199,58,2,0,0,0,19.57,1.23,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__CACIAM-22H2,f__CACIAM-22H2,g__Tagaea,s__
+metabat_CY_bin.11_sub__CY_Dec06,p__Cyanobacteria,79,582,456,370,172,40,0,0,0,36.25,7.2,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Microcystaceae,g__Microcystis,s__Microcystis sp002282935
+metabat_CY_bin.13_sub__CY_Dec06,c__Alphaproteobacteria,564,348,229,278,69,0,1,0,0,16.1,0.87,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__CACIAM-22H2,f__CACIAM-22H2,g__Tagaea,s__
+metabat_CY_bin.14_sub__CY_Dec06,c__Alphaproteobacteria,26,529,308,204,320,5,0,0,0,60.45,1.19,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Caulobacterales,f__Caulobacteraceae,g__Phenylobacterium,s__Phenylobacterium sp020402745
+metabat_CY_bin.18__CY_Dec06,p__Cyanobacteria,79,582,456,159,334,73,14,2,0,73.59,20.21,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Microcystaceae,g__Microcystis,s__Microcystis aeruginosa
+metabat_CY_bin.1_sub__CY_Dec06,o__Burkholderiales,193,426,214,13,408,5,0,0,0,96.26,1.17,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Burkholderiales,f__Burkholderiaceae_B,g__Rubrivivax,s__
+metabat_CY_bin.24_sub__CY_Dec06,k__Bacteria,5449,104,58,62,42,0,0,0,0,61.38,0,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Burkholderiales,f__Burkholderiaceae_B,g__Inhella,s__
+metabat_CY_bin.29__CY_Dec06,o__Burkholderiales,193,427,214,61,341,25,0,0,0,84.93,6.46,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Burkholderiales,f__Burkholderiaceae_B,g__Inhella,s__
+metabat_CY_bin.3__CY_Dec06,f__Flavobacteriaceae,81,511,283,10,496,5,0,0,0,97.08,1.3,d__Bacteria,p__Bacteroidota,c__Bacteroidia,o__Flavobacteriales,f__Flavobacteriaceae,g__Flavobacterium,s__Flavobacterium macrobrachii
+metabat_CY_bin.4_sub__CY_Dec06,k__Bacteria,5449,103,58,91,12,0,0,0,0,11.72,0,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Microcystaceae,g__Microcystis,s__
+vamb_CY_vae_11__CY_Dec06,o__Cytophagales,47,454,336,45,358,51,0,0,0,90.23,12.35,d__Bacteria,p__Bacteroidota,c__Bacteroidia,o__Cytophagales,f__Cyclobacteriaceae,g__ELB16-189,s__ELB16-189 sp020402945
+vamb_CY_vae_12__CY_Dec06,c__Alphaproteobacteria,26,529,308,82,410,36,1,0,0,82.32,8.2,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Caulobacterales,f__Caulobacteraceae,g__Phenylobacterium,s__Phenylobacterium sp020402745
+vamb_CY_vae_132_sub__CY_Dec06,o__Actinomycetales,455,315,190,185,106,22,2,0,0,33.87,6.34,d__Bacteria,p__Actinomycetota,c__Actinomycetia,o__Nanopelagicales,f__Nanopelagicaceae,g__Planktophila,s__
+vamb_CY_vae_141__CY_Dec06,k__Bacteria,5449,104,58,14,66,23,1,0,0,75.86,14.81,d__Bacteria,p__Pseudomonadota,c__Alphaproteobacteria,o__Acetobacterales,f__Acetobacteraceae,g__Roseomonas_B,s__Roseomonas_B sp020249285
+vamb_CY_vae_28__CY_Dec06,p__Cyanobacteria,79,582,456,271,295,16,0,0,0,54.23,3.29,d__Bacteria,p__Cyanobacteriota,c__Cyanobacteriia,o__Cyanobacteriales,f__Microcystaceae,g__Microcystis,s__Microcystis viridis
+vamb_CY_vae_4__CY_Dec06,p__Proteobacteria,1487,259,162,58,195,6,0,0,0,76.23,2.26,d__Bacteria,p__Pseudomonadota,c__Gammaproteobacteria,o__Burkholderiales,f__Burkholderiaceae_A,g__JAJTHJ01,s__JAJTHJ01 sp021298875
